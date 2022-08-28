@@ -136,7 +136,7 @@ func (ps Params) MatchedRoutePath() string {
 // Router is a http.Handler which can be used to dispatch requests to different
 // handler functions via configurable routes
 type Router struct {
-	trees map[string]*node
+	trees map[string]*node //method-radix-tree
 
 	paramsPool sync.Pool
 	maxParams  uint16
@@ -333,6 +333,8 @@ func (r *Router) Handle(method, path string, handle Handle) {
 			return &ps
 		}
 	}
+
+	root.Printtree()
 }
 
 // Handler is an adapter which allows the usage of an http.Handler as a

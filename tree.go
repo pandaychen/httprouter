@@ -5,6 +5,7 @@
 package httprouter
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -79,6 +80,25 @@ type node struct {
 	priority  uint32
 	children  []*node
 	handle    Handle
+}
+
+func (n *node) Printtree() {
+	if n.nType == root {
+		fmt.Printf("[root]path=%s,indices=%s,wildChild=%v,nType=%d,priority=%d\n", n.path, n.indices, n.wildChild, int(n.nType), n.priority)
+	} else {
+		fmt.Printf("\t[child]path=%s,indices=%s,wildChild=%v,nType=%d,priority=%d\n", n.path, n.indices, n.wildChild, int(n.nType), n.priority)
+	}
+	if len(n.children) == 0 {
+		fmt.Println("-----------------")
+		return
+	} else {
+		for _, v := range n.children {
+			if v != nil {
+				v.Printtree()
+			}
+		}
+	}
+	fmt.Println("-----------------")
 }
 
 // Increments priority of the given child and reorders if necessary
